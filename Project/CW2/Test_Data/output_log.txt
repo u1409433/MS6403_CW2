@@ -1,0 +1,34 @@
+Initialize engine version: 5.4.1f1 (649f48bbbf0f)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: AMD Radeon(TM) R9 270 (ID=0x6811)
+    Vendor:   ATI
+    VRAM:     2022 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\DOTween.dll (this message is harmless)
+Loading S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\DOTween.dll into Unity Child Domain
+- Completed reload, in  0.136 seconds
+Platform assembly: S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: S:\1409433\MS6403 CW2\CW2\Test_Data\Managed\System.dll (this message is harmless)
+desktop: 1680x1050 60Hz; virtual: 3360x1050 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 0.765215 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1b9c -> priority: 1 
+  Thread -> id: 12a4 -> priority: 1 
+Pickup is 0.7378671 units away
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Log: connection {1} has been disconnected by timeout; address {::ffff:127.0.0.1:7777}
