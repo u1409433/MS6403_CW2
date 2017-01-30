@@ -31,6 +31,4 @@ public class JL_NetworkManagerExtended : NetworkManager
 
         base.OnServerAddPlayer(conn, playerControllerId);
     }
-
-
 }

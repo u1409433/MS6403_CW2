@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 143000011963176160}
   - component: {fileID: 114000011267975676}
   - component: {fileID: 114000011612436384}
-  - component: {fileID: 114807458255444080}
+  - component: {fileID: 114376336971442704}
   m_Layer: 0
   m_Name: PC_P2
   m_TagString: Tiny
@@ -73,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010360780066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.8201933, y: 10.129205, z: -21.422873}
+  m_LocalPosition: {x: 1.0717818, y: -1.5, z: 7.0671387}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011054433670}
@@ -120,7 +120,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 60dbfbe5f8c7a77479aee310963dcac8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114807458255444080
+--- !u!114 &114376336971442704
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -255,15 +255,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000010360780066}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6c70ce3eb70bac4ab021ed067ae1681, type: 3}
+  m_Script: {fileID: 11500000, guid: 0572bcae2af49cb4ebbb858a515b3591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mFL_Speed: 6
   mFL_Gravity: 10
   mV3_Direction: {x: 0, y: 0, z: 0}
-  GO_Capsule: {fileID: 0}
+  GO_Capsule: {fileID: 1000010782344442}
   mBL_ShiftAvailable: 1
   mBL_Holding: 0
+  Mat_Default: {fileID: 0}
 --- !u!136 &136000010352763926
 CapsuleCollider:
   m_ObjectHideFlags: 1

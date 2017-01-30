@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class JL_TargetBox : MonoBehaviour
+public class JL_TargetBox : NetworkBehaviour
 {
     public GameObject GO_Target;
 
@@ -22,7 +23,22 @@ public class JL_TargetBox : MonoBehaviour
     {
         if (vCollided.transform.name == "Projectile")
         {
+            CmdActivate();
             GO_Target.SetActive(true);
         }
+    }
+
+    [Command]
+    public void CmdActivate()
+    {
+        GO_Target.SetActive(true);
+
+        //RpcActivate();
+    }
+
+    [ClientRpc]
+    void RpcActivate()
+    {
+        GO_Target.SetActive(true);
     }
 }

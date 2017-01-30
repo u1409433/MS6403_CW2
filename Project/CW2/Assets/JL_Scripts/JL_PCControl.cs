@@ -16,14 +16,38 @@ public class JL_PCControl : NetworkBehaviour
     public bool mBL_ShiftAvailable = true;
     public bool mBL_Holding = false;
 
+    public Material Mat_Purple;
+    public Material Mat_Green;
+    public Material Mat_Orange;
+    public Material Mat_Blue;
+
     private JL_CameraScript SC_Camera;
+
+    private JL_LevelManager SC_LevelManager;
+
+    private Vector3 SpawnPoint;
+
+    private string ST_Name;
 
     // Use this for initialization
     void Start()
     {
         mCC_PC = GetComponent<CharacterController>();
+        SC_LevelManager = GameObject.Find("LevelManager").GetComponent<JL_LevelManager>();
+        SpawnPoint = Vector3.zero;
+        ST_Name = "Techy";
+
         SC_Camera = GameObject.Find("Camera").GetComponent<JL_CameraScript>();
-        SC_Camera.P1 = gameObject;
+
+        if (SC_Camera.P1 == null)
+        {
+            SC_Camera.P1 = gameObject;
+        }
+        else
+        {
+            SC_Camera.P2 = gameObject;
+            SC_Camera.GameStart = true;
+        }
     }
 
     // Update is called once per frame
@@ -33,9 +57,13 @@ public class JL_PCControl : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.T))
         {
-            //Determine if you're the host or not
-            if (isClient) CmdShapeshift();
-            else RpcShapeshift();
+            if (mBL_ShiftAvailable)
+            {
+                NameChange(ST_Name);
+                CmdShapeshift();
+                if (isServer) SC_LevelManager.ST_P1Form = ST_Name;
+                else SC_LevelManager.ST_P2Form = ST_Name;
+            }
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
@@ -43,20 +71,77 @@ public class JL_PCControl : NetworkBehaviour
         }
 
         Move();
+
+        HeightCheck();
     }
 
-    void ClientUpdate()
+    [Command]
+    void CmdShapeshift()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        switch (ST_Name)
         {
-            CmdShapeshift();
-        }
-        else if (Input.GetKeyDown(KeyCode.F))
-        {
-            CmdInteract(gameObject.transform.tag);
+            case "Techy":
+               GO_Capsule.GetComponent<Renderer>().material = Mat_Purple;
+                break;
+            case "Strong":
+                GO_Capsule.GetComponent<Renderer>().material = Mat_Orange;
+                break;
+            case "Fast":
+                GO_Capsule.GetComponent<Renderer>().material = Mat_Green;
+                break;
+            case "Light":
+                GO_Capsule.GetComponent<Renderer>().material = Mat_Blue;
+                break;
         }
 
-        Move();
+        RpcShapeshift();
+    }
+
+    [ClientRpc]
+    void RpcShapeshift()
+    {
+        switch (ST_Name)
+        {
+            case "Techy":
+                GO_Capsule.GetComponent<Renderer>().material = Mat_Purple;
+                break;
+            case "Strong":
+                GO_Capsule.GetComponent<Renderer>().material = Mat_Orange;
+                break;
+            case "Fast":
+                GO_Capsule.GetComponent<Renderer>().material = Mat_Green;
+                break;
+            case "Light":
+                GO_Capsule.GetComponent<Renderer>().material = Mat_Blue;
+                break;
+        }
+    }
+
+    void HeightCheck()
+    {
+        if (gameObject.transform.position.y < -15)
+        {
+            gameObject.transform.position = SpawnPoint;
+        }
+    }
+
+    void NameChange(string vName)
+    {
+        switch (vName)
+        {
+            case "Techy":
+                ST_Name = "Strong";
+                break;
+            case "Strong":
+                ST_Name = "Fast";
+                break;
+            case "Fast":
+                ST_Name = "Light";
+                break;
+            case "Light":
+                ST_Name = "Techy";
+                break;
+        }
     }
 
     void Move()
@@ -117,61 +202,26 @@ public class JL_PCControl : NetworkBehaviour
         mCC_PC.Move(mV3_Direction * Time.deltaTime);
     }
 
-    [ClientRpc]
-    void RpcShapeshift()
+    void OnTriggerEnter(Collider vCollided)
     {
-        if (mBL_ShiftAvailable)
+        if (vCollided.transform.tag == "Deadly")
         {
-            if (gameObject.transform.tag == "Tiny")
+            gameObject.transform.position = SpawnPoint;
+            if (vCollided.transform.name == "Lava")
             {
-                gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0.8f, 0);
-                GO_Capsule.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                mCC_PC.radius = 0.5f;
-                mCC_PC.height = 2;
-                mFL_Speed = 3;
-                gameObject.transform.tag = "Big";
-                mBL_ShiftAvailable = false;
-                Invoke("RestoreAbility", 3f);
-            }
-            else if (gameObject.transform.tag == "Big")
-            {
-                GO_Capsule.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                mCC_PC.radius = 0.25f;
-                mCC_PC.height = 1;
-                mFL_Speed = 6;
-                gameObject.transform.tag = "Tiny";
-                mBL_ShiftAvailable = false;
-                Invoke("RestoreAbility", 3f);
+                vCollided.transform.position = new Vector3(10, -9, 160);
+                Debug.Log("I touched Lava");
             }
         }
-    }
 
-    [Command]
-    void CmdShapeshift()
-    {
-        if (mBL_ShiftAvailable)
+        if (vCollided.transform.tag == "Spawnpoint")
         {
-            if (gameObject.transform.tag == "Tiny")
-            {
-                gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0.8f, 0);
-                GO_Capsule.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                mCC_PC.radius = 0.5f;
-                mCC_PC.height = 2;
-                mFL_Speed = 3;
-                gameObject.transform.tag = "Big";
-                mBL_ShiftAvailable = false;
-                Invoke("RestoreAbility", 3f);
-            }
-            else if (gameObject.transform.tag == "Big")
-            {
-                GO_Capsule.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                mCC_PC.radius = 0.25f;
-                mCC_PC.height = 1;
-                mFL_Speed = 6;
-                gameObject.transform.tag = "Tiny";
-                mBL_ShiftAvailable = false;
-                Invoke("RestoreAbility", 3f);
-            }
+            SpawnPoint = vCollided.gameObject.transform.position;
+        }
+
+        if (vCollided.transform.name == "End Platform")
+        {
+            GameObject.Find("UI").GetComponent<JL_UIManager>().EndCollision();
         }
     }
 
@@ -180,8 +230,7 @@ public class JL_PCControl : NetworkBehaviour
     {
         if (mBL_Holding)
         {
-            mGO_Child.transform.SetParent(null);
-            mBL_Holding = false;
+            CmdDrop();
         }
         else
         {
@@ -205,7 +254,12 @@ public class JL_PCControl : NetworkBehaviour
         }
     }
 
-
+    [Command]
+    public void CmdDrop()
+    {
+        mGO_Child.transform.SetParent(null);
+        mBL_Holding = false;
+    }
 
 
 
@@ -213,6 +267,17 @@ public class JL_PCControl : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         GO_Capsule.GetComponent<MeshRenderer>().material.color = Color.blue;
+        SC_Camera = GameObject.Find("Camera").GetComponent<JL_CameraScript>();
+
+        if (SC_Camera.P1 == null)
+        {
+            SC_Camera.P1 = gameObject;
+        }
+        else
+        {
+            SC_Camera.P2 = gameObject;
+            SC_Camera.GameStart = true;
+        }
     }
 
     void RestoreAbility()

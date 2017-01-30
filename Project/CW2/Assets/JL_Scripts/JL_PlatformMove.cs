@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Networking;
 
-public class JL_PlatformMove : MonoBehaviour
+public class JL_PlatformMove : NetworkBehaviour
 {
     public float FL_Speed;
     public float FL_Target1;
@@ -28,30 +29,48 @@ public class JL_PlatformMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (!BL_Active) DOTween.PauseAll();
-        else DOTween.PlayAll();*/
-
-        //if (FL_CurrentTarget - transform.position.x != 0)
-        //{
-        //    transform.Translate(1, 0, 0);
-        //}
+        
     }
 
-    void Activate()
+    [Command]
+    void CmdActivate()
     {
-        Debug.Log("ACTIVATE PLATFORM");
+        Debug.Log("ACTIVATE PLATFORM CMD");
         BL_Active = false;
         DOTween.Pause(gameObject.name);
-        Invoke("RestoreMovement", 3);
+        Invoke("CmdRestoreMovement", 3);
+
+        GetComponent<Renderer>().material = Mat_Unusable;
+
+        RpcActivate();
+    }
+
+    [Command]
+    void CmdRestoreMovement()
+    {
+        BL_Active = true;
+        DOTween.Play(gameObject.name);
+        GetComponent<Renderer>().material = Mat_Original;
+
+        RpcRestoreMovement();
+    }
+
+    [ClientRpc]
+    void RpcActivate()
+    {
+        Debug.Log("ACTIVATE PLATFORM RPC");
+        BL_Active = false;
+        DOTween.Pause(gameObject.name);
+        Invoke("RpcRestoreMovement", 3);
 
         GetComponent<Renderer>().material = Mat_Unusable;
     }
 
-    void RestoreMovement()
+    [ClientRpc]
+    void RpcRestoreMovement()
     {
         BL_Active = true;
         DOTween.Play(gameObject.name);
         GetComponent<Renderer>().material = Mat_Original;
     }
-
 }

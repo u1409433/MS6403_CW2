@@ -9,6 +9,10 @@ TagManager:
   - Fast
   - Floaty
   - Interactable
+  - Deadly
+  - Spawnpoint
+  - CatapultCollection
+  - LockedDoor
   layers:
   - Default
   - TransparentFX

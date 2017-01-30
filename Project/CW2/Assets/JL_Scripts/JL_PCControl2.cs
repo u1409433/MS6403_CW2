@@ -36,7 +36,6 @@ public class JL_PCControl2 : NetworkBehaviour
         {
             //Determine if you're the host or not
             if (isClient) CmdShapeshift();
-            else RpcShapeshift();
         }
         else if (Input.GetKeyDown(KeyCode.F))
         {
@@ -90,35 +89,6 @@ public class JL_PCControl2 : NetworkBehaviour
         mV3_Direction.y -= mFL_Gravity * Time.deltaTime;
 
         mCC_PC.Move(mV3_Direction * Time.deltaTime);
-    }
-
-    [ClientRpc]
-    void RpcShapeshift()
-    {
-        if (mBL_ShiftAvailable)
-        {
-            if (gameObject.transform.tag == "Tiny")
-            {
-                gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0.8f, 0);
-                GO_Capsule.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-                mCC_PC.radius = 0.5f;
-                mCC_PC.height = 2;
-                mFL_Speed = 3;
-                gameObject.transform.tag = "Big";
-                mBL_ShiftAvailable = false;
-                Invoke("RestoreAbility", 3f);
-            }
-            else if (gameObject.transform.tag == "Big")
-            {
-                GO_Capsule.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                mCC_PC.radius = 0.25f;
-                mCC_PC.height = 1;
-                mFL_Speed = 6;
-                gameObject.transform.tag = "Tiny";
-                mBL_ShiftAvailable = false;
-                Invoke("RestoreAbility", 3f);
-            }
-        }
     }
 
     [Command]
@@ -185,6 +155,11 @@ public class JL_PCControl2 : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         GO_Capsule.GetComponent<MeshRenderer>().material.color = Color.blue;
+        if (SC_Camera.P1 != null)
+        {
+            SC_Camera.P2 = gameObject;
+            SC_Camera.GameStart = true;
+        }
     }
 
     void RestoreAbility()

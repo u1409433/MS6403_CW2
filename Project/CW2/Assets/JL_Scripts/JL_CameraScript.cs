@@ -22,7 +22,10 @@ public class JL_CameraScript : NetworkBehaviour
         {
             Vector3 Targetpos = new Vector3((P1.transform.position.x + P2.transform.position.x) / 2, (P1.transform.position.y + P2.transform.position.y) / 2, (P1.transform.position.z + P2.transform.position.z) / 2);
             transform.LookAt(Targetpos);
-            transform.position = Targetpos + new Vector3(0, 20, -5);
+            transform.position = Targetpos + new Vector3(0, 15, -15);
         }
     }
+
+
+    
 }

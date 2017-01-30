@@ -73,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010360780066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.640751, y: 10.423142, z: -22.594007}
+  m_LocalPosition: {x: 2.726375, y: -1.5, z: 6.7060184}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4476564336203984}
@@ -151,7 +151,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 60dbfbe5f8c7a77479aee310963dcac8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -264,6 +264,10 @@ MonoBehaviour:
   GO_Capsule: {fileID: 1223742030485482}
   mBL_ShiftAvailable: 1
   mBL_Holding: 0
+  Mat_Purple: {fileID: 2100000, guid: 60dbfbe5f8c7a77479aee310963dcac8, type: 2}
+  Mat_Green: {fileID: 2100000, guid: 213590d554a499b4eb2da25b67500ab9, type: 2}
+  Mat_Orange: {fileID: 2100000, guid: bfb23dc7017b3624583d0a1e1ca8c306, type: 2}
+  Mat_Blue: {fileID: 2100000, guid: e43d4ff15cd29cb469f6e3ace0cf4f68, type: 2}
 --- !u!136 &136135898307552910
 CapsuleCollider:
   m_ObjectHideFlags: 1
